@@ -25,7 +25,7 @@ Dragging between two lists:
 </ul>
 
 <h2>Drop here</h2>
-<ul data-bind="foreach: target, dropZone: { accepts: 'lists', drop: drop }">
+<ul data-bind="foreach: data, dropZone: { accepts: 'lists', drop: drop }">
     <li data-bind="text: $data"></li>
 </ul>
 ```
@@ -42,10 +42,10 @@ var model = {
         'Camille',
         'Aiden'
     ]),
-    target: ko.observableArray(),
+    data: ko.observableArray(),
     drop: function (data, model) {
         model.source.remove(data);
-        model.target.push(data);
+        model.data.push(data);
     }
 };
 ko.applyBindings(model);

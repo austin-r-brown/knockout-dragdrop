@@ -174,28 +174,28 @@ jQuery.fn = jQuery.prototype = {
 
 jQuery.extend = jQuery.fn.extend = function() {
 	var src, copyIsArray, copy, name, options, clone,
-		target = arguments[ 0 ] || {},
+		data = arguments[ 0 ] || {},
 		i = 1,
 		length = arguments.length,
 		deep = false;
 
 	// Handle a deep copy situation
-	if ( typeof target === "boolean" ) {
-		deep = target;
+	if ( typeof data === "boolean" ) {
+		deep = data;
 
-		// skip the boolean and the target
-		target = arguments[ i ] || {};
+		// skip the boolean and the data
+		data = arguments[ i ] || {};
 		i++;
 	}
 
-	// Handle case when target is a string or something (possible in deep copy)
-	if ( typeof target !== "object" && !jQuery.isFunction( target ) ) {
-		target = {};
+	// Handle case when data is a string or something (possible in deep copy)
+	if ( typeof data !== "object" && !jQuery.isFunction( data ) ) {
+		data = {};
 	}
 
 	// extend jQuery itself if only one argument is passed
 	if ( i === length ) {
-		target = this;
+		data = this;
 		i--;
 	}
 
@@ -206,11 +206,11 @@ jQuery.extend = jQuery.fn.extend = function() {
 
 			// Extend the base object
 			for ( name in options ) {
-				src = target[ name ];
+				src = data[ name ];
 				copy = options[ name ];
 
 				// Prevent never-ending loop
-				if ( target === copy ) {
+				if ( data === copy ) {
 					continue;
 				}
 
@@ -227,18 +227,18 @@ jQuery.extend = jQuery.fn.extend = function() {
 					}
 
 					// Never move original objects, clone them
-					target[ name ] = jQuery.extend( deep, clone, copy );
+					data[ name ] = jQuery.extend( deep, clone, copy );
 
 				// Don't bring in undefined values
 				} else if ( copy !== undefined ) {
-					target[ name ] = copy;
+					data[ name ] = copy;
 				}
 			}
 		}
 	}
 
 	// Return the modified object
-	return target;
+	return data;
 };
 
 jQuery.extend( {
@@ -517,7 +517,7 @@ jQuery.extend( {
 			fn = tmp;
 		}
 
-		// Quick check to determine if target is callable, in the spec
+		// Quick check to determine if data is callable, in the spec
 		// this throws a TypeError, but we will just return undefined.
 		if ( !jQuery.isFunction( fn ) ) {
 			return undefined;
@@ -753,18 +753,18 @@ try {
 	push = { apply: arr.length ?
 
 		// Leverage slice if possible
-		function( target, els ) {
-			push_native.apply( target, slice.call(els) );
+		function( data, els ) {
+			push_native.apply( data, slice.call(els) );
 		} :
 
 		// Support: IE<9
 		// Otherwise append directly
-		function( target, els ) {
-			var j = target.length,
+		function( data, els ) {
+			var j = data.length,
 				i = 0;
 			// Can't trust NodeList.length
-			while ( (target[j++] = els[i++]) ) {}
-			target.length = j - 1;
+			while ( (data[j++] = els[i++]) ) {}
+			data.length = j - 1;
 		}
 	};
 }
@@ -1951,7 +1951,7 @@ Expr = Sizzle.selectors = {
 		}),
 
 		// Miscellaneous
-		"target": function( elem ) {
+		"data": function( elem ) {
 			var hash = window.location && window.location.hash;
 			return hash && hash.slice( 1 ) === elem.id;
 		},
@@ -2996,14 +2996,14 @@ var rparentsprev = /^(?:parents|prev(?:Until|All))/,
 	};
 
 jQuery.fn.extend( {
-	has: function( target ) {
+	has: function( data ) {
 		var i,
-			targets = jQuery( target, this ),
-			len = targets.length;
+			datas = jQuery( data, this ),
+			len = datas.length;
 
 		return this.filter( function() {
 			for ( i = 0; i < len; i++ ) {
-				if ( jQuery.contains( this, targets[ i ] ) ) {
+				if ( jQuery.contains( this, datas[ i ] ) ) {
 					return true;
 				}
 			}
@@ -5080,8 +5080,8 @@ jQuery.event = {
 
 		// Clean up the event in case it is being reused
 		event.result = undefined;
-		if ( !event.target ) {
-			event.target = elem;
+		if ( !event.data ) {
+			event.data = elem;
 		}
 
 		// Clone any incoming data and prepend the event, creating the handler arg list
@@ -5150,7 +5150,7 @@ jQuery.event = {
 				) && acceptData( elem )
 			) {
 
-				// Call a native DOM method on the target with the same name name as the event.
+				// Call a native DOM method on the data with the same name name as the event.
 				// Can't use an .isFunction() check here because IE6/7 fails that test.
 				// Don't do default actions on window, that's where global variables be (#6170)
 				if ( ontype && elem[ type ] && !jQuery.isWindow( elem ) ) {
@@ -5247,7 +5247,7 @@ jQuery.event = {
 		var i, matches, sel, handleObj,
 			handlerQueue = [],
 			delegateCount = handlers.delegateCount,
-			cur = event.target;
+			cur = event.data;
 
 		// Support (at least): Chrome, IE9
 		// Find delegate handlers
@@ -5324,15 +5324,15 @@ jQuery.event = {
 		}
 
 		// Support: IE<9
-		// Fix target property (#1925)
-		if ( !event.target ) {
-			event.target = originalEvent.srcElement || document;
+		// Fix data property (#1925)
+		if ( !event.data ) {
+			event.data = originalEvent.srcElement || document;
 		}
 
 		// Support: Safari 6-8+
 		// Target should not be a text node (#504, #13143)
-		if ( event.target.nodeType === 3 ) {
-			event.target = event.target.parentNode;
+		if ( event.data.nodeType === 3 ) {
+			event.data = event.data.parentNode;
 		}
 
 		// Support: IE<9
@@ -5344,7 +5344,7 @@ jQuery.event = {
 
 	// Includes some event props shared by KeyEvent and MouseEvent
 	props: ( "altKey bubbles cancelable ctrlKey currentTarget detail eventPhase " +
-		"metaKey relatedTarget shiftKey target timeStamp view which" ).split( " " ),
+		"metaKey relatedTarget shiftKey data timeStamp view which" ).split( " " ),
 
 	fixHooks: {},
 
@@ -5371,7 +5371,7 @@ jQuery.event = {
 
 			// Calculate pageX/Y if missing and clientX/Y available
 			if ( event.pageX == null && original.clientX != null ) {
-				eventDoc = event.target.ownerDocument || document;
+				eventDoc = event.data.ownerDocument || document;
 				doc = eventDoc.documentElement;
 				body = eventDoc.body;
 
@@ -5385,7 +5385,7 @@ jQuery.event = {
 
 			// Add relatedTarget, if necessary
 			if ( !event.relatedTarget && fromElement ) {
-				event.relatedTarget = fromElement === event.target ?
+				event.relatedTarget = fromElement === event.data ?
 					original.toElement :
 					fromElement;
 			}
@@ -5445,7 +5445,7 @@ jQuery.event = {
 
 			// For cross-browser consistency, don't fire native .click() on links
 			_default: function( event ) {
-				return jQuery.nodeName( event.target, "a" );
+				return jQuery.nodeName( event.data, "a" );
 			}
 		},
 
@@ -5629,13 +5629,13 @@ jQuery.each( {
 
 		handle: function( event ) {
 			var ret,
-				target = this,
+				data = this,
 				related = event.relatedTarget,
 				handleObj = event.handleObj;
 
-			// For mouseenter/leave call the handler if related is outside the target.
+			// For mouseenter/leave call the handler if related is outside the data.
 			// NB: No relatedTarget if the mouse left/entered the browser window
-			if ( !related || ( related !== target && !jQuery.contains( target, related ) ) ) {
+			if ( !related || ( related !== data && !jQuery.contains( data, related ) ) ) {
 				event.type = handleObj.origType;
 				ret = handleObj.handler.apply( this, arguments );
 				event.type = fix;
@@ -5660,7 +5660,7 @@ if ( !support.submit ) {
 			jQuery.event.add( this, "click._submit keypress._submit", function( e ) {
 
 				// Node name check avoids a VML-related crash in IE (#9807)
-				var elem = e.target,
+				var elem = e.data,
 					form = jQuery.nodeName( elem, "input" ) || jQuery.nodeName( elem, "button" ) ?
 
 						// Support: IE <=8
@@ -5737,7 +5737,7 @@ if ( !support.change ) {
 
 			// Delegated event; lazy-add a change handler on descendant inputs
 			jQuery.event.add( this, "beforeactivate._change", function( e ) {
-				var elem = e.target;
+				var elem = e.data;
 
 				if ( rformElems.test( elem.nodeName ) && !jQuery._data( elem, "change" ) ) {
 					jQuery.event.add( elem, "change._change", function( event ) {
@@ -5751,7 +5751,7 @@ if ( !support.change ) {
 		},
 
 		handle: function( event ) {
-			var elem = event.target;
+			var elem = event.data;
 
 			// Swallow native change events from checkbox/radio, we already triggered them above
 			if ( this !== elem || event.isSimulated || event.isTrigger ||
@@ -5782,7 +5782,7 @@ if ( !support.focusin ) {
 
 		// Attach a single capturing handler on the document while someone wants focusin/focusout
 		var handler = function( event ) {
-			jQuery.event.simulate( fix, event.target, jQuery.event.fix( event ) );
+			jQuery.event.simulate( fix, event.data, jQuery.event.fix( event ) );
 		};
 
 		jQuery.event.special[ fix ] = {
@@ -6268,8 +6268,8 @@ jQuery.fn.extend( {
 	append: function() {
 		return domManip( this, arguments, function( elem ) {
 			if ( this.nodeType === 1 || this.nodeType === 11 || this.nodeType === 9 ) {
-				var target = manipulationTarget( this, elem );
-				target.appendChild( elem );
+				var data = manipulationTarget( this, elem );
+				data.appendChild( elem );
 			}
 		} );
 	},
@@ -6277,8 +6277,8 @@ jQuery.fn.extend( {
 	prepend: function() {
 		return domManip( this, arguments, function( elem ) {
 			if ( this.nodeType === 1 || this.nodeType === 11 || this.nodeType === 9 ) {
-				var target = manipulationTarget( this, elem );
-				target.insertBefore( elem, target.firstChild );
+				var data = manipulationTarget( this, elem );
+				data.insertBefore( elem, data.firstChild );
 			}
 		} );
 	},
@@ -9187,20 +9187,20 @@ function inspectPrefiltersOrTransports( structure, options, originalOptions, jqX
 // A special extend for ajax options
 // that takes "flat" options (not to be deep extended)
 // Fixes #9887
-function ajaxExtend( target, src ) {
+function ajaxExtend( data, src ) {
 	var deep, key,
 		flatOptions = jQuery.ajaxSettings.flatOptions || {};
 
 	for ( key in src ) {
 		if ( src[ key ] !== undefined ) {
-			( flatOptions[ key ] ? target : ( deep || ( deep = {} ) ) )[ key ] = src[ key ];
+			( flatOptions[ key ] ? data : ( deep || ( deep = {} ) ) )[ key ] = src[ key ];
 		}
 	}
 	if ( deep ) {
-		jQuery.extend( true, target, deep );
+		jQuery.extend( true, data, deep );
 	}
 
-	return target;
+	return data;
 }
 
 /* Handles responses to an ajax request:
@@ -9436,17 +9436,17 @@ jQuery.extend( {
 		}
 	},
 
-	// Creates a full fledged settings object into target
+	// Creates a full fledged settings object into data
 	// with both ajaxSettings and settings fields.
-	// If target is omitted, writes into ajaxSettings.
-	ajaxSetup: function( target, settings ) {
+	// If data is omitted, writes into ajaxSettings.
+	ajaxSetup: function( data, settings ) {
 		return settings ?
 
 			// Building a settings object
-			ajaxExtend( ajaxExtend( target, jQuery.ajaxSettings ), settings ) :
+			ajaxExtend( ajaxExtend( data, jQuery.ajaxSettings ), settings ) :
 
 			// Extending ajaxSettings
-			ajaxExtend( jQuery.ajaxSettings, target );
+			ajaxExtend( jQuery.ajaxSettings, data );
 	},
 
 	ajaxPrefilter: addToPrefiltersOrTransports( prefilters ),
@@ -9935,7 +9935,7 @@ jQuery.fn.extend( {
 
 		if ( this[ 0 ] ) {
 
-			// The elements to wrap the target around
+			// The elements to wrap the data around
 			var wrap = jQuery( html, this[ 0 ].ownerDocument ).eq( 0 ).clone( true );
 
 			if ( this[ 0 ].parentNode ) {

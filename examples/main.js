@@ -66,7 +66,7 @@
     function DragDropView(items) {
         items = items || [];
         this.source = ko.observableArray([].concat(items));
-        this.target = ko.observableArray();
+        this.data = ko.observableArray();
     }
 
 
@@ -74,11 +74,11 @@
 
     SimpleView.prototype.dropFromSource = function (data, model) {
         model.source.remove(data);
-        model.target.push(data);
+        model.data.push(data);
     };
 
     SimpleView.prototype.dropFromTarget = function (data, model) {
-        model.target.remove(data);
+        model.data.remove(data);
         model.source.push(data);
     };
 
@@ -128,7 +128,7 @@
 
     var DragHandlesView = extendConstructor(StylingView);
     DragHandlesView.prototype.dragStart = function (item, event) {
-        var insideDragHandle = getClosest(event.target, '.drag-handle') !== null;
+        var insideDragHandle = getClosest(event.data, '.drag-handle') !== null;
         if (insideDragHandle) {
             item.dragging(true);
             return true;
@@ -164,7 +164,7 @@
         styling: new StylingView(toDraggables(names)),
         payload: {
             source: new DragDropArea(toDraggables(names)),
-            target: new DragDropArea()
+            data: new DragDropArea()
         },
         rejectDrop: new RejectionView(toDraggables(names)),
         dragZones: {
@@ -174,7 +174,7 @@
             consonants: new DragDropArea(toDraggables(names).filter(function (draggable) {
                 return !draggable.startsWithVowel();
             })),
-            target: new DragDropArea()
+            data: new DragDropArea()
         },
         dragHandles: new DragHandlesView(toDraggables(names)),
         sortable: new SortableView(toDraggables(names)),

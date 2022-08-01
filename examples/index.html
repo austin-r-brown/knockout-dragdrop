@@ -12,12 +12,12 @@
                 <h1>Simple drag and drop between lists</h1>
 
                 <div class="zones">
-                    <ul class="source" data-bind="foreach: source, dropZone: { accepts: 'simple.target', drop: dropFromTarget }">
+                    <ul class="source" data-bind="foreach: source, dropZone: { accepts: 'simple.data', drop: dropFromTarget }">
                         <li data-bind="text: $data, dragZone: { name: 'simple.source' }"></li>
                     </ul>
 
-                    <ul class="target" data-bind="foreach: target, dropZone: { accepts: 'simple.source', drop: dropFromSource }">
-                        <li data-bind="text: $data, dragZone: { name: 'simple.target' }"></li>
+                    <ul class="data" data-bind="foreach: data, dropZone: { accepts: 'simple.source', drop: dropFromSource }">
+                        <li data-bind="text: $data, dragZone: { name: 'simple.data' }"></li>
                     </ul>
                 </div>
             </div>
@@ -27,12 +27,12 @@
                 <h1>Using a custom drag element</h1>
 
                 <div class="zones">
-                    <ul class="source" data-bind="foreach: source, dropZone: { accepts: 'dragElement.target', drop: dropFromTarget }">
+                    <ul class="source" data-bind="foreach: source, dropZone: { accepts: 'dragElement.data', drop: dropFromTarget }">
                         <li data-bind="text: $data, dragZone: { name: 'dragElement.source', element: 'dragElement' }"></li>
                     </ul>
 
-                    <ul class="target" data-bind="foreach: target, dropZone: { accepts: 'dragElement.source', drop: dropFromSource }">
-                        <li data-bind="text: $data, dragZone: { name: 'dragElement.target', element: 'dragElement' }"></li>
+                    <ul class="data" data-bind="foreach: data, dropZone: { accepts: 'dragElement.source', drop: dropFromSource }">
+                        <li data-bind="text: $data, dragZone: { name: 'dragElement.data', element: 'dragElement' }"></li>
                     </ul>
                 </div>
                 <script type="text/html" id="dragElement">
@@ -45,7 +45,7 @@
                 <h1>Drag styling</h1>
 
                 <div class="zones">
-                    <ul class="source" data-bind="foreach: source, dropZone: { accepts: 'dragStyling.target', drop: dropFromTarget }">
+                    <ul class="source" data-bind="foreach: source, dropZone: { accepts: 'dragStyling.data', drop: dropFromTarget }">
                         <li data-bind="text: value,
                                        css: { dragging: dragging },
                                        dragZone: { name: 'dragStyling.source',
@@ -55,10 +55,10 @@
                         </li>
                     </ul>
 
-                    <ul class="target" data-bind="foreach: target, dropZone: { accepts: 'dragStyling.source', drop: dropFromSource }">
+                    <ul class="data" data-bind="foreach: data, dropZone: { accepts: 'dragStyling.source', drop: dropFromSource }">
                         <li data-bind="text: value,
                                        css: { dragging: dragging },
-                                       dragZone: { name: 'dragStyling.target',
+                                       dragZone: { name: 'dragStyling.data',
                                          dragStart: $parent.dragStart,
                                          dragEnd: $parent.dragEnd
                                        }">
@@ -73,7 +73,7 @@
 
                 <div class="zones">
                     <!-- ko with: source -->
-                    <ul class="source" data-bind="foreach: items, dropZone: { accepts: 'payload.target', drop: drop }">
+                    <ul class="source" data-bind="foreach: items, dropZone: { accepts: 'payload.data', drop: drop }">
                         <li data-bind="dragZone: {
                                          name: 'payload.source',
                                          data: { items: $parent.items, item: $data },
@@ -86,10 +86,10 @@
                     </ul>
                     <!-- /ko -->
 
-                    <!-- ko with: target -->
-                    <ul class="target" data-bind="foreach: items, dropZone: { accepts: 'payload.source', drop: drop }">
+                    <!-- ko with: data -->
+                    <ul class="data" data-bind="foreach: items, dropZone: { accepts: 'payload.source', drop: drop }">
                         <li data-bind="dragZone: {
-                                         name: 'payload.target',
+                                         name: 'payload.data',
                                          data: { items: $parent.items, item: $data },
                                          dragStart: $parent.dragStart,
                                          dragEnd: $parent.dragEnd,
@@ -111,7 +111,7 @@
                 <p>You can only drop names starting with a vowel.</p>
 
                 <div class="zones">
-                    <ul class="source" data-bind="foreach: source, dropZone: { accepts: 'rejectDrop.target', drop: dropFromTarget }">
+                    <ul class="source" data-bind="foreach: source, dropZone: { accepts: 'rejectDrop.data', drop: dropFromTarget }">
                         <li data-bind="text: value,
                                        css: { dragging: dragging },
                                        dragZone: { name: 'rejectDrop.source',
@@ -121,10 +121,10 @@
                         </li>
                     </ul>
 
-                    <ul class="target" data-bind="foreach: target, dropZone: { accepts: 'rejectDrop.source', dragEnter: dragEnter, drop: dropFromSource }">
+                    <ul class="data" data-bind="foreach: data, dropZone: { accepts: 'rejectDrop.source', dragEnter: dragEnter, drop: dropFromSource }">
                         <li data-bind="text: value,
                                        css: { dragging: dragging },
-                                       dragZone: { name: 'rejectDrop.target',
+                                       dragZone: { name: 'rejectDrop.data',
                                          dragStart: $parent.dragStart,
                                          dragEnd: $parent.dragEnd
                                        }">
@@ -140,7 +140,7 @@
 
                 <div class="zones">
                     <!-- ko with: vowels -->
-                    <ul class="source vowels" data-bind="foreach: items, dropZone: { accepts: 'dragZones.target.vowel', drop: drop }">
+                    <ul class="source vowels" data-bind="foreach: items, dropZone: { accepts: 'dragZones.data.vowel', drop: drop }">
                         <li data-bind="text: value,
                                        css: { dragging: dragging },
                                        dragZone: { name: 'dragZones.source.vowel',
@@ -152,7 +152,7 @@
                     </ul>
                     <!-- /ko -->
                     <!-- ko with: consonants -->
-                    <ul class="source consonants" data-bind="foreach: items, dropZone: { accepts: 'dragZones.target.consonant', drop: drop }">
+                    <ul class="source consonants" data-bind="foreach: items, dropZone: { accepts: 'dragZones.data.consonant', drop: drop }">
                         <li data-bind="text: value,
                                        css: { dragging: dragging },
                                        dragZone: { name: 'dragZones.source.consonant',
@@ -163,11 +163,11 @@
                         </li>
                     </ul>
                     <!-- /ko -->
-                    <!-- ko with: target -->
-                    <ul class="target" data-bind="foreach: items, dropZone: { accepts: ['dragZones.source.vowel', 'dragZones.source.consonant'], drop: drop }">
+                    <!-- ko with: data -->
+                    <ul class="data" data-bind="foreach: items, dropZone: { accepts: ['dragZones.source.vowel', 'dragZones.source.consonant'], drop: drop }">
                         <li data-bind="text: value,
                                        css: { dragging: dragging },
-                                       dragZone: { name: 'dragZones.target.' + ($data.startsWithVowel() ? 'vowel' : 'consonant' ),
+                                       dragZone: { name: 'dragZones.data.' + ($data.startsWithVowel() ? 'vowel' : 'consonant' ),
                                          dragStart: $parent.dragStart,
                                          dragEnd: $parent.dragEnd,
                                          data: { items: $parent.items, item: $data }
@@ -184,7 +184,7 @@
                 <p>You can only drag the items using the drag handle.</p>
 
                 <div class="zones">
-                    <ul class="source" data-bind="foreach: source, dropZone: { accepts: 'dragHandles.target', drop: dropFromTarget }">
+                    <ul class="source" data-bind="foreach: source, dropZone: { accepts: 'dragHandles.data', drop: dropFromTarget }">
                         <li data-bind="css: { dragging: dragging },
                                        dragZone: { name: 'dragHandles.source',
                                          dragStart: $parent.dragStart,
@@ -195,9 +195,9 @@
                         </li>
                     </ul>
 
-                    <ul class="target" data-bind="foreach: target, dropZone: { accepts: 'dragHandles.source', drop: dropFromSource }">
+                    <ul class="data" data-bind="foreach: data, dropZone: { accepts: 'dragHandles.source', drop: dropFromSource }">
                         <li data-bind="css: { dragging: dragging },
-                                       dragZone: { name: 'dragHandles.target',
+                                       dragZone: { name: 'dragHandles.data',
                                          dragStart: $parent.dragStart,
                                          dragEnd: $parent.dragEnd
                                        }">
